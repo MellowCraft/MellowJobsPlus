@@ -27,7 +27,7 @@ public class JobCommand {
     public static void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands
                 .literal("job")
-                .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
+                .requires(commandSourceStack -> JobsPlus.getPermissions().hasPermission(commandSourceStack, "jobsplus.commands.admin", 2))
                 .then(Commands.literal("debug")
                         .then(Commands.argument("target_player", EntityArgument.player())
                                 .executes(context -> debug(context.getSource(), EntityArgument.getPlayer(context, "target_player")))
