@@ -45,6 +45,7 @@ dependencies {
     modImplementation "com.daqem.yamlconfig:yamlconfig-fabric:${project.yamlconfig_version}"
     modImplementation "com.daqem.arc:arc-fabric:${project.arc_version}"
     modImplementation "com.daqem.itemrestrictions:itemrestrictions-fabric:${project.itemrestrictions_version}"
+    include(modImplementation("me.lucko:fabric-permissions-api:0.3.1"))
 }
 
 processResources {

@@ -8,6 +8,7 @@ import com.daqem.jobsplus.client.options.JobsScreenOptions;
 import com.daqem.jobsplus.client.screen.job.tab.LeftTab;
 import com.daqem.jobsplus.client.screen.job.tab.RightTab;
 import com.daqem.jobsplus.config.JobsPlusConfig;
+import com.daqem.jobsplus.config.MellowJobsData;
 import com.daqem.jobsplus.integration.arc.holder.holders.job.JobInstance;
 import com.daqem.jobsplus.networking.c2s.ServerboundStartJobPacket;
 import com.daqem.jobsplus.player.job.Job;
@@ -90,7 +91,7 @@ public class JobsComponent extends AbstractComponent<JobsComponent> {
                             return true;
                         }, true
                 );
-            } else if (JobsPlusConfig.maxJobs.get() <= options.getPreformingJobs().size()) {
+            } else if (MellowJobsData.myMaxJobs <= options.getPreformingJobs().size()) {
                 openModal(
                         JobsPlus.translatable("gui.jobs.max_jobs_reached.title"),
                         JobsPlus.translatable("gui.jobs.max_jobs_reached.description"),
@@ -162,7 +163,7 @@ public class JobsComponent extends AbstractComponent<JobsComponent> {
                 coinsComponent.setWidth(width);
             }
         }
-        startJobButtonComponent.setVisible(options.getNotPreformingJobs().contains(options.getSelectedJob()) && JobsPlusConfig.maxJobs.get() > options.getPreformingJobs().size());
+        startJobButtonComponent.setVisible(options.getNotPreformingJobs().contains(options.getSelectedJob()) && MellowJobsData.myMaxJobs > options.getPreformingJobs().size());
     }
 
     public void openModal(Component title, Component description, OnClickEvent<ButtonComponent> confirmEvent, boolean onlyConfirm) {

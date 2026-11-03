@@ -53,7 +53,7 @@ public class ServerboundStartJobPacket implements CustomPacketPayload {
                 context.getPlayer().sendSystemMessage(JobsPlus.translatable("error.job_not_found", packet.jobLocation.toString()));
                 return;
             }
-            if (serverPlayer.jobsplus$getJobs().size() >= JobsPlusConfig.maxJobs.get()) {
+            if (serverPlayer.jobsplus$getJobs().size() >= JobsPlusConfig.maxJobsFor(serverPlayer.jobsplus$getServerPlayer())) {
                 context.getPlayer().sendSystemMessage(JobsPlus.translatable("error.max_jobs_reached"));
                 return;
             }

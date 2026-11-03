@@ -9,7 +9,7 @@ import net.neoforged.fml.common.Mod;
 public class JobsPlusNeoForge {
 
     public JobsPlusNeoForge(IEventBus modEventBus) {
-        JobsPlus.init();
+        JobsPlus.init(null);
 
         EnvExecutor.getEnvSpecific(
                 () -> () -> new SideProxyNeoForge.Client(modEventBus),

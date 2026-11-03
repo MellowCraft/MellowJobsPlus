@@ -1,19 +1,23 @@
 package com.daqem.jobsplus.config;
 
 import com.daqem.jobsplus.JobsPlus;
+import com.daqem.jobsplus.player.JobsServerPlayer;
 import com.daqem.yamlconfig.api.config.ConfigExtension;
 import com.daqem.yamlconfig.api.config.ConfigType;
 import com.daqem.yamlconfig.api.config.IConfigBuilder;
 import com.daqem.yamlconfig.api.config.entry.IConfigEntry;
 import com.daqem.yamlconfig.impl.config.ConfigBuilder;
+import net.minecraft.server.level.ServerPlayer;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.List;
+import java.util.Map;
 
 public class JobsPlusConfig {
 
     public static final IConfigEntry<Boolean> enableDefaultJobs;
     public static final IConfigEntry<Integer> amountOfFreeJobs;
-    public static final IConfigEntry<Integer> maxJobs;
+    public static final IConfigEntry<Map<String, Integer>> maxJobs;
     public static final IConfigEntry<List<String>> excludedJobs;
     public static final IConfigEntry<String> experienceFormula;
     public static final IConfigEntry<Double> jobPriceMultiplier;
@@ -40,7 +44,7 @@ public class JobsPlusConfig {
         config.push("jobs");
         enableDefaultJobs = config.defineBoolean("enable_default_jobs", true).withComments("if true, the default jobs are enabled. WARNING: setting this to false will erase all the stats for these jobs");
         amountOfFreeJobs = config.defineInteger("amount_of_free_jobs", 2, 0, Integer.MAX_VALUE).withComments("the amount of free jobs a player can have");
-        maxJobs = config.defineInteger("max_jobs", Integer.MAX_VALUE, 0, Integer.MAX_VALUE).withComments("the maximum amount of jobs a player can have");
+        maxJobs = config.defineIntegerMap("max_jobs", Map.of("jobplus.jobs.1", 1), 0, Integer.MAX_VALUE).withComments("the maximum amount of jobs a player can have based on their permissions.");
         excludedJobs = config.defineStringList("excluded_jobs", List.of()).withComments("A list of job IDs to exclude from the game. Example: ['jobsplus:miner', 'jobsplus:digger']");
         experienceFormula = config.defineString("experience_formula", "100 + level * level * 0.5791").withComments("The formula used to calculate experience required for the next level.");
         jobPriceMultiplier = config.defineDouble("job_price_multiplier", 1.0, 0.0, 100.0).withComments("A global multiplier for all job prices.");
@@ -77,5 +81,21 @@ public class JobsPlusConfig {
     }
 
     public static void init() {
+    }
+
+    public static int maxJobsFor(ServerPlayer serverPlayer) {
+        int jobs = 0;
+
+        for (Map.Entry<String, Integer> pair : maxJobs.get().entrySet()) {
+            String perm = pair.getKey();
+            int count = pair.getValue();
+            if(JobsPlus.getPermissions().hasPermission(serverPlayer, perm, 2)) {
+                if(count > 0) {
+                    jobs = count;
+                }
+            }
+        }
+
+        return jobs;
     }
 }

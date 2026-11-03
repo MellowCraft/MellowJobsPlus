@@ -8,6 +8,7 @@ import com.daqem.jobsplus.integration.arc.action.type.JobsPlusActionType;
 import com.daqem.jobsplus.integration.arc.condition.type.JobsPlusConditionType;
 import com.daqem.jobsplus.integration.arc.reward.type.JobsPlusRewardType;
 import com.daqem.jobsplus.networking.JobsPlusNetworking;
+import com.daqem.jobsplus.permissions.JobPermissions;
 import com.mojang.logging.LogUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -19,8 +20,10 @@ import java.text.DecimalFormat;
 public class JobsPlus {
     public static final String MOD_ID = "jobsplus";
     public static final Logger LOGGER = LogUtils.getLogger();
+    private static JobPermissions permissions;
 
-    public static void init() {
+    public static void init(JobPermissions permissions) {
+        JobsPlus.permissions = permissions;
         JobsPlusConfig.init();
         JobsPlusNetworking.init();
 
@@ -79,5 +82,9 @@ public class JobsPlus {
         DecimalFormat df = new DecimalFormat(pattern);
         df.setMinimumFractionDigits(0);
         return df.format(number);
+    }
+
+    public static JobPermissions getPermissions() {
+        return permissions;
     }
 }
