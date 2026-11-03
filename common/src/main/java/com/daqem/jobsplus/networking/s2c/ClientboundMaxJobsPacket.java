@@ -1,5 +1,6 @@
 package com.daqem.jobsplus.networking.s2c;
 
+import com.daqem.jobsplus.JobsPlus;
 import com.daqem.jobsplus.client.toast.LevelUpJobToast;
 import com.daqem.jobsplus.config.MellowJobsData;
 import com.daqem.jobsplus.integration.arc.holder.holders.job.JobInstance;
@@ -40,11 +41,12 @@ public class ClientboundMaxJobsPacket implements CustomPacketPayload {
 
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() {
-        return JobsPlusNetworking.CLIENTBOUND_LEVEL_UP_JOB;
+        return JobsPlusNetworking.CLIENTBOUND_MAX_JOBS;
     }
 
     @Environment(EnvType.CLIENT)
     public static void handleClientSide(ClientboundMaxJobsPacket packet, NetworkManager.PacketContext context) {
+        JobsPlus.LOGGER.info("Received Max Jobs packet from server: {}", packet.maxJobs);
         MellowJobsData.myMaxJobs = packet.maxJobs;
     }
 }

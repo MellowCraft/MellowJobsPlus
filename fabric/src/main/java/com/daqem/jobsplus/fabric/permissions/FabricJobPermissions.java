@@ -6,9 +6,6 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerPlayer;
 
 public class FabricJobPermissions implements JobPermissions {
-    public static void register() {
-
-    }
 
     @Override
     public boolean hasPermission(CommandSourceStack stack, String permission, int level) {

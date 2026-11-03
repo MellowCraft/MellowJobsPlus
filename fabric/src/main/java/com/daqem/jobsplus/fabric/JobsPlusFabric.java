@@ -8,6 +8,7 @@ import com.daqem.jobsplus.fabric.data.JobManagerFabric;
 import com.daqem.jobsplus.fabric.data.PowerupManagerFabric;
 import com.daqem.jobsplus.fabric.mellow.PlayerJoinListener;
 import com.daqem.jobsplus.fabric.permissions.FabricJobPermissions;
+import com.daqem.jobsplus.fabric.scheduler.TickScheduler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -20,6 +21,7 @@ public class JobsPlusFabric implements ModInitializer {
     public void onInitialize() {
         JobsPlus.init(new FabricJobPermissions());
 
+        TickScheduler.register();
         PlayerJoinListener.register();
 
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new JobManagerFabric());

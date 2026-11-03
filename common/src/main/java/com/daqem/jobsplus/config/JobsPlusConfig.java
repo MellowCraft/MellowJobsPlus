@@ -86,13 +86,12 @@ public class JobsPlusConfig {
     public static int maxJobsFor(ServerPlayer serverPlayer) {
         int jobs = 0;
 
-        for (Map.Entry<String, Integer> pair : maxJobs.get().entrySet()) {
-            String perm = pair.getKey();
-            int count = pair.getValue();
-            if(JobsPlus.getPermissions().hasPermission(serverPlayer, perm, 2)) {
-                if(count > 0) {
-                    jobs = count;
-                }
+
+        for (Map.Entry<String, Integer> entry : maxJobs.get().entrySet()) {
+            boolean hasPermission = JobsPlus.getPermissions().hasPermission(serverPlayer, entry.getKey(), 2);
+//            JobsPlus.LOGGER.info("Permission: {}, Jobs: {}, granted: {}", entry.getKey(), entry.getValue(), hasPermission);
+            if (hasPermission) {
+                jobs = Math.max(jobs, entry.getValue());
             }
         }
 
